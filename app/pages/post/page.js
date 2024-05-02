@@ -4,12 +4,14 @@ import Tweet from '@/components/Tweet'
 import { useEffect, useState } from "react";
 import { client } from "@/app/ApolloWrapper";
 import { getPostsQuery } from "@/api/queries";
+import CreateTweet from '@/components/CreateTweet';
 
 
 
 export default function PostFunction(){
 
     const [data, setData] = useState();
+    const [creating, setCreating] = useState(false)
 
     useEffect(()=>{
         async function getData(){
@@ -23,11 +25,17 @@ export default function PostFunction(){
         getData();
     }, [])
 
+    function handleCreate(e){
+        setCreating(true)
+    }
 
     return (
         <>
-        <h1>Make a post</h1>
-        {data ? <Tweet data = {data} /> : <p>Loading ...</p>} 
+        <button onClick={handleCreate} className= "mx-10 my-5 bg-slate-900 p-5 text-white rounded-lg">
+            Make a post
+        </button>
+        {creating && <CreateTweet setCreating={setCreating}/>}
+        {data ? data.map((tweetData)=><Tweet data = {tweetData} />) : <p>Loading ...</p>} 
         </>
     );
 }

@@ -24,19 +24,22 @@ export const deletePost = async (post_id) => {
 
 
 export const createPost = async (data)=>{
+    console.log(data)
+
     const statement =db.prepare( `
-        INSERT INTO posts VALUES(
-            null,
+        INSERT INTO posts (title, content, likes, retweets, user_id)
+        VALUES(      
             @title,
             @content,
             @likes,
             @retweets,
-            @created_at,
             @user_id
         )
     `);
 
     statement.run(data)
+    return statement;
 }
+
 
 

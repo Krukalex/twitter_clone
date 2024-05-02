@@ -3,6 +3,11 @@ type Query {
     posts: [Post]
 }
 
+type Mutation {
+    createPost(input: createPostInput!): Post
+    deletePost(input: deletePostInput): Post
+}
+
 type User{
     user_id: ID!
     username: String
@@ -19,4 +24,13 @@ type Post{
     retweets: Int
     created_at: String
     user_id: ID!
+}
+
+input createPostInput{
+    title: String
+    content: String
+}
+
+input deletePostInput{
+    id: ID!
 }

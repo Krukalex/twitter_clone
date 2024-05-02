@@ -25,3 +25,11 @@ export const getPostsQuery = gql`
         }
     }
 `
+
+export const createPostQuery = gql`
+    mutation CreatePost($input: createPostInput!) {
+        createPost(input: $input) {
+            title
+        }
+    }
+`
