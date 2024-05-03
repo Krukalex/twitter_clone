@@ -26,6 +26,7 @@ export default function PostFunction(){
     }, [])
 
     function handleCreate(e){
+        e.preventDefault()
         setCreating(true)
     }
 
@@ -35,7 +36,7 @@ export default function PostFunction(){
             Make a post
         </button>
         {creating && <CreateTweet setCreating={setCreating}/>}
-        {data ? data.map((tweetData)=><Tweet data = {tweetData} />) : <p>Loading ...</p>} 
+        {data ? data.map((tweetData, key)=><Tweet data = {tweetData} key={key}/>) : <p>Loading ...</p>} 
         </>
     );
 }

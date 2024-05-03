@@ -26,7 +26,7 @@ export const getPostsQuery = gql`
     }
 `
 
-export const createPostQuery = gql`
+export const createPostMutation = gql`
     mutation CreatePost($input: createPostInput!) {
         createPost(input: $input) {
             title
