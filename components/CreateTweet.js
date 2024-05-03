@@ -12,8 +12,6 @@ export default function CreateTweet({setCreating}){
     const [body, setBody] = useState("")
 
     async function handleCreateSubmit(e){
-        console.log(title)
-        console.log(body)
         const { data } = await client.mutate({
             mutation: createPostMutation,
             variables: { input: {title: title, content: body}}

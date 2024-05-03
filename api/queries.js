@@ -33,3 +33,11 @@ export const createPostMutation = gql`
         }
     }
 `
+
+export const deletePostMutation = gql`
+    mutation DeletePost($input: deletePostInput) {
+    deletePost(input: $input) {
+        post_id
+    }
+    }
+`

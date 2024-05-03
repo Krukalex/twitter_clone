@@ -13,6 +13,7 @@ export default function PostFunction(){
     const [data, setData] = useState();
     const [creating, setCreating] = useState(false)
 
+
     useEffect(()=>{
         async function getData(){
             const { data } = await client.query({
@@ -30,13 +31,15 @@ export default function PostFunction(){
         setCreating(true)
     }
 
+    console.log(data)
+
     return (
         <>
         <button onClick={handleCreate} className= "mx-10 my-5 bg-slate-900 p-5 text-white rounded-lg">
             Make a post
         </button>
         {creating && <CreateTweet setCreating={setCreating}/>}
-        {data ? data.map((tweetData, key)=><Tweet data = {tweetData} key={key}/>) : <p>Loading ...</p>} 
+        {data ? data.map((tweetData, key)=><Tweet tweetData= {tweetData} pageData = {data} setPageData={setData} key={key}/>) : <p>Loading ...</p>} 
         </>
     );
 }
