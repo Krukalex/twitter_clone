@@ -28,8 +28,20 @@ export const getPostByIdQuery = gql`
             content
             likes
             retweets
+            comments
             created_at
             user_id
+        }
+    }
+`
+
+export const getPostCommentsQuery = gql`
+    query GetPostComments($input: getPostCommentsInput!){
+        getPostComments(input: $input){
+            content
+            post_id
+            user_id
+            created_at
         }
     }
 `
@@ -63,5 +75,13 @@ export const createRetweetMutation = gql`
         createRetweet(input: $input) {
             post_id
         }
+    }
+`
+
+export const createCommentMutation = gql`
+    mutation CreateComments($input: createCommentInput){
+        createComment(input: $input) {
+            post_id
+        } 
     }
 `

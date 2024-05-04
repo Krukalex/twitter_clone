@@ -20,7 +20,8 @@ const getPostsById = async (post_id) => {
             p.created_at, 
             p.user_id, 
             (select count(*) from postLikes pl where pl.post_id = p.post_id) as likes, 
-            (select count(*) from retweets r where r.post_id= p.post_id) as retweets
+            (select count(*) from retweets r where r.post_id= p.post_id) as retweets,
+            (select count(*) from comments c where c.post_id= p.post_id) as comments
         FROM 
             posts p
         where p.post_id = ?
@@ -78,12 +79,12 @@ module.exports = {
     getPostsById
 };
 
-const data = async()=>{
-    const output = await getPostsById(1);
-    console.log(output);
-    return output;
-}
+// const data = async()=>{
+//     const output = await getPostsById(1);
+//     console.log(output);
+//     return output;
+// }
 
-data();
+// data();
 
 

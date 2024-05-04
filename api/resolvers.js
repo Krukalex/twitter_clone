@@ -1,3 +1,4 @@
+import { createComment, getPostComments, getUserComments } from "@/data/comments";
 import { createPostLike } from "@/data/postLikes";
 import { createPost, deletePost, getPosts, getPostsById, getPostsIds } from "@/data/posts";
 import { createRetweet } from "@/data/retweets";
@@ -15,6 +16,14 @@ export const resolvers = {
         },
         getPostById: async(_root, {input: {post_id}})=>{
             const data = await getPostsById(post_id);
+            return data;
+        },
+        getPostComments: async(_root, {input: {post_id}})=>{
+            const data = await getPostComments(post_id);
+            return data;
+        },
+        getUserComments: async(_root, {input: {user_id}})=>{
+            const data = await getUserComments(user_id);
             return data;
         }
     },
@@ -35,6 +44,10 @@ export const resolvers = {
         },
         createRetweet: async(_root, {input: {post_id, user_id}})=>{
             const data = await createRetweet({post_id, user_id})
+            return null;
+        },
+        createComment: async(_root, {input: {post_id, user_id, content}})=>{
+            const data = await createComment({post_id, user_id, content});
             return null;
         }
     }

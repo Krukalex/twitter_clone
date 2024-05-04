@@ -2,6 +2,8 @@ type Query {
     users: [User]
     posts: [PostId]
     getPostById(input: getPostByIdInput): Post
+    getPostComments(input: getPostCommentsInput): [Comment]
+    getUserComments(input: getUserCommentsInput): [Comment]
 }
 
 type Mutation {
@@ -9,6 +11,7 @@ type Mutation {
     deletePost(input: deletePostInput): Post
     createLike(input: createLikeInput): Like
     createRetweet(input: createRetweetInput): Retweet
+    createComment(input: createCommentInput): Comment
 }
 
 type User{
@@ -29,6 +32,7 @@ type Post{
     content: String
     likes: Int
     retweets: Int
+    comments: Int
     created_at: String
     user_id: ID!
 }
@@ -44,6 +48,14 @@ type Retweet{
     retweet_id: ID!
     post_id: ID!
     user_id: ID!
+    created_at: String
+}
+
+type Comment{
+    comment_id: ID!
+    post_id: ID!
+    user_id: ID!
+    content: String
     created_at: String
 }
 
@@ -68,4 +80,18 @@ input createRetweetInput{
 
 input getPostByIdInput{
     post_id: ID!
+}
+
+input getPostCommentsInput{
+    post_id: ID!
+}
+
+input getUserCommentsInput{
+    user_id: ID!
+}
+
+input createCommentInput{
+    post_id: ID!
+    user_id: ID!
+    content: String
 }

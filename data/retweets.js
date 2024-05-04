@@ -22,13 +22,13 @@ const getRetweets = async()=>{
     return output;
 }
 
-const fun = async()=>{
-    const output = await getRetweets();
-    console.log(output)
-    return output
-}
+// const fun = async()=>{
+//     const output = await getRetweets();
+//     console.log(output)
+//     return output
+// }
 
-console.log(fun());
+// console.log(fun());
 
 module.exports = {
     createRetweet,

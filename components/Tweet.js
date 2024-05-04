@@ -1,6 +1,7 @@
 import { client } from "@/app/ApolloWrapper";
 import { createLike, createLikeMutation, createRetweetMutation, deletePostMutation, getPostByIdQuery } from "@/api/queries";
 import { useState, useEffect } from "react";
+import CommentsPage from "./CommentsPage";
 
 export default function Tweet({tweetData, pageData, setPageData}){
     const { 
@@ -10,6 +11,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
 
     const [tweet, setTweet] = useState();
     const [postLikes, setPostLikes] = useState(false)
+    const [viewingComments, setViewingComments] = useState(false);
 
     async function getData(){
         const { data } = await client.query({
@@ -17,7 +19,6 @@ export default function Tweet({tweetData, pageData, setPageData}){
             variables: {input: {post_id}},
             fetchPolicy: "network-only"
         });
-        console.log(data)
         setTweet(data.getPostById)
         return data.getPostById;
     }
@@ -58,6 +59,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
         return <p>... Loading</p>
     }
     return(
+        <>
         <div className="bg-blue-600 text-white p-3 mx-10 my-5 rounded-lg text-lg">
             <div className="flex justify-between">
             <h3 className="py-2">{tweet.title}
@@ -73,10 +75,12 @@ export default function Tweet({tweetData, pageData, setPageData}){
             </div>
             <p className="py-5">{tweet.content}</p>
             <div className="py-3">
-                <button className="pr-10">Comments 0</button>
+                <button className="pr-10" onClick={()=>setViewingComments(!viewingComments)}>Comments {tweet.comments}</button>
                 <button className="pr-10" onClick={handleUpdateLikes}> Likes {tweet.likes}</button>
                 <button className="pr-10" onClick={handleUpdateRetweet}>Retweet {tweet.retweets}</button>
             </div>
+            {viewingComments && <CommentsPage post_id={post_id} />}
         </div>
+        </>
     )
 }

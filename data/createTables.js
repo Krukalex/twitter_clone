@@ -47,13 +47,26 @@ const createRetweetTable = `
     )
 `;
 
+const createCommentsTable = `
+    CREATE TABLE IF NOT EXISTS comments (
+        comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        post_id INTEGER,
+        content TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES posts(post_id),
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )
+`
+
 // Execute the SQL statement to create the table
 db.exec(createUserTable);
 db.exec(createPostsTable);
 db.exec(createPostLikesTable);
 db.exec(createRetweetTable);
+db.exec(createCommentsTable);
 
-// db.exec("Drop Table if exists postLikes")
+//db.exec("Drop Table if exists postLikes")
 // db.exec("DROP TABLE IF EXISTS posts")
 
 // Close the database connection
