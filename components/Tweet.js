@@ -10,7 +10,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
 
 
     const [tweet, setTweet] = useState();
-    const [postLikes, setPostLikes] = useState(false)
+    const [updated, setUpdated] = useState(false)
     const [viewingComments, setViewingComments] = useState(false);
 
     async function getData(){
@@ -25,14 +25,14 @@ export default function Tweet({tweetData, pageData, setPageData}){
 
     useEffect(()=>{
         getData();
-    }, [postLikes])
+    }, [updated])
 
     async function handleUpdateLikes(e){
         const { data } = await client.mutate({
             mutation: createLikeMutation,
             variables: { input: {post_id: post_id, user_id: tweet.user_id}}
           });
-        setPostLikes(!postLikes)
+          setUpdated(!updated)
         return data;
     }
 
@@ -41,7 +41,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
             mutation: createRetweetMutation,
             variables: { input: {post_id: post_id, user_id: tweet.user_id}}
         });
-        setPostLikes(!postLikes)
+        setUpdated(!updated)
         return data;
     }
 
@@ -79,7 +79,9 @@ export default function Tweet({tweetData, pageData, setPageData}){
                 <button className="pr-10" onClick={handleUpdateLikes}> Likes {tweet.likes}</button>
                 <button className="pr-10" onClick={handleUpdateRetweet}>Retweet {tweet.retweets}</button>
             </div>
-            {viewingComments && <CommentsPage post_id={post_id} />}
+            <div className={ viewingComments && "outline outline-1 outline-slate-200 rounded-sm text-base"}>
+                {viewingComments && <CommentsPage post_id={post_id} updated = {updated} setUpdated={setUpdated}/>}
+            </div>
         </div>
         </>
     )

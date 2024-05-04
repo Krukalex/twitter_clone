@@ -35,13 +35,13 @@ const getUserComments = async(user_id)=>{
     getUserCommentsStmt.run(user_id);
 }
 
-const data = async()=>{
-    const output = await getPostComments(1);
-    console.log(output);
-    return output;
-}
+// const data = async()=>{
+//     const output = await getPostComments(1);
+//     console.log(output);
+//     return output;
+// }
 
-data();
+// data();
 
 module.exports = {
     createComment,
