@@ -31,7 +31,6 @@ export default function PostFunction(){
         setCreating(true)
     }
 
-    console.log(data)
 
     return (
         <>

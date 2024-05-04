@@ -19,10 +19,30 @@ const createPostsTable = `
         post_id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         content TEXT,
-        likes INTEGER,
-        retweets INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         user_id INTEGER,
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )
+`;
+
+const createPostLikesTable = `
+    CREATE TABLE IF NOT EXISTS postLikes (
+        like_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        post_id INTEGER,
+        user_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES posts(post_id),
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )
+`;
+
+const createRetweetTable = `
+    CREATE TABLE IF NOT EXISTS retweets (
+        retweet_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        post_id INTEGER,
+        user_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES posts(post_id),
         FOREIGN KEY (user_id) REFERENCES users(user_id)
     )
 `;
@@ -30,6 +50,11 @@ const createPostsTable = `
 // Execute the SQL statement to create the table
 db.exec(createUserTable);
 db.exec(createPostsTable);
+db.exec(createPostLikesTable);
+db.exec(createRetweetTable);
+
+// db.exec("Drop Table if exists postLikes")
+// db.exec("DROP TABLE IF EXISTS posts")
 
 // Close the database connection
 db.close();
