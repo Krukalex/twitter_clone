@@ -4,6 +4,8 @@ type Query {
     getPostById(input: getPostByIdInput): Post
     getPostComments(input: getPostCommentsInput): [Comment]
     getUserComments(input: getUserCommentsInput): [Comment]
+    getUserByEmail(input: getUserByEmailInput): User
+    getUserById(input: getUserByIdInput):User
 }
 
 type Mutation {
@@ -34,7 +36,7 @@ type Post{
     retweets: Int
     comments: Int
     created_at: String
-    user_id: ID!
+    user: User
 }
 
 type Like{
@@ -54,7 +56,7 @@ type Retweet{
 type Comment{
     comment_id: ID!
     post_id: ID!
-    user_id: ID!
+    user: User
     content: String
     created_at: String
 }
@@ -94,4 +96,12 @@ input createCommentInput{
     post_id: ID!
     user_id: ID!
     content: String
+}
+
+input getUserByEmailInput{
+    email: String!
+}
+
+input getUserByIdInput{
+    user_id: ID!
 }

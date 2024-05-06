@@ -30,7 +30,10 @@ export const getPostByIdQuery = gql`
             retweets
             comments
             created_at
-            user_id
+            user{
+                user_id
+                username
+            }
         }
     }
 `
@@ -40,6 +43,31 @@ export const getPostCommentsQuery = gql`
         getPostComments(input: $input){
             content
             post_id
+            user{
+                user_id
+                username
+            }
+            created_at
+        }
+    }
+`
+
+export const getUserByEmailQuery = gql`
+    query GetUserByEmail($input: getUserByEmailInput){
+        getUserByEmail(input: $input) {
+            user_id
+            username
+            email
+            password
+        }
+    }
+`
+
+export const getUserByIdQuery = gql`
+    query GetUserById($input: getUserByIdInput){
+        getUserById(input: $input) {
+            email
+            username
             user_id
             created_at
         }

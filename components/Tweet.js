@@ -20,6 +20,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
             fetchPolicy: "network-only"
         });
         setTweet(data.getPostById)
+        console.log(data)
         return data.getPostById;
     }
 
@@ -30,7 +31,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
     async function handleUpdateLikes(e){
         const { data } = await client.mutate({
             mutation: createLikeMutation,
-            variables: { input: {post_id: post_id, user_id: tweet.user_id}}
+            variables: { input: {post_id: post_id, user_id: tweet.user.user_id}}
           });
           setUpdated(!updated)
         return data;
@@ -39,7 +40,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
     async function handleUpdateRetweet(e){
         const { data } = await client.mutate({
             mutation: createRetweetMutation,
-            variables: { input: {post_id: post_id, user_id: tweet.user_id}}
+            variables: { input: {post_id: post_id, user_id: tweet.user.user_id}}
         });
         setUpdated(!updated)
         return data;
@@ -63,7 +64,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
         <div className="bg-blue-600 text-white p-3 mx-10 my-5 rounded-lg text-lg">
             <div className="flex justify-between">
             <h3 className="py-2">{tweet.title}
-                <span id="screen_name">@{tweet.user_id} </span>
+                <span id="screen_name">@{tweet.user.username} </span>
                 <span>{tweet.created_at}</span>
             </h3>
             <button 
@@ -79,7 +80,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
                 <button className="pr-10" onClick={handleUpdateLikes}> Likes {tweet.likes}</button>
                 <button className="pr-10" onClick={handleUpdateRetweet}>Retweet {tweet.retweets}</button>
             </div>
-            <div className={ viewingComments && "outline outline-1 outline-slate-200 rounded-sm text-base"}>
+            <div className={ viewingComments ? "outline outline-1 outline-slate-200 rounded-sm text-base" : undefined}>
                 {viewingComments && <CommentsPage post_id={post_id} updated = {updated} setUpdated={setUpdated}/>}
             </div>
         </div>

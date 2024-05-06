@@ -1,7 +1,7 @@
 const sql = require('better-sqlite3');
 const db = sql('twitterClone.db');
 
-export const getUsers = async () => {
+const getUsers = async () => {
     const selectQuery = `
     SELECT * FROM users;
     `;
@@ -11,7 +11,27 @@ export const getUsers = async () => {
     return rows
 };
 
-export const deleteUser = async (user_id) => {
+const getUserById = async(user_id)=>{
+    const selectQuery = `
+        SELECT * FROM users
+        WHERE user_id = ?
+    `
+
+    const rows = db.prepare(selectQuery).all(user_id)
+    return rows
+}
+
+const getUserByEmail = async(email)=>{
+    const selectQuery = `
+        SELECT * FROM users
+        WHERE email = ?
+    `
+
+    const rows = db.prepare(selectQuery).all(email)
+    return rows
+}
+
+const deleteUser = async (user_id) => {
     const query = `
         DELETE FROM users
         WHERE user_id = ?
@@ -21,7 +41,7 @@ export const deleteUser = async (user_id) => {
 
 }
 
-export const createUser = async (data)=>{
+const createUser = async (data)=>{
     const statement =db.prepare( `
         INSERT INTO users VALUES(
             null,
@@ -35,5 +55,17 @@ export const createUser = async (data)=>{
     statement.run(data)
 }
 
-//createUser(data);
+// const ex = async(email)=>{
+//     const output = await getUserByEmail(email)
+//     console.log(output)
+// }
 
+// ex('user@example.com')
+
+module.exports={
+    getUsers,
+    getUserById,
+    getUserByEmail,
+    deleteUser,
+    createUser
+}
