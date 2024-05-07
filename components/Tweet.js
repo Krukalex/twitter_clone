@@ -1,7 +1,8 @@
 import { client } from "@/app/ApolloWrapper";
-import { createLike, createLikeMutation, createRetweetMutation, deletePostMutation, getPostByIdQuery } from "@/api/queries";
-import { useState, useEffect } from "react";
+import { createLikeMutation, createRetweetMutation, deletePostMutation, getPostByIdQuery } from "@/api/queries";
+import { useState, useEffect, useContext } from "react";
 import CommentsPage from "./CommentsPage";
+import { Context } from "@/app/layout";
 
 export default function Tweet({tweetData, pageData, setPageData}){
     const { 
@@ -12,6 +13,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
     const [tweet, setTweet] = useState();
     const [updated, setUpdated] = useState(false)
     const [viewingComments, setViewingComments] = useState(false);
+    const {loggedIn, userData} = useContext(Context)
 
     async function getData(){
         const { data } = await client.query({
@@ -20,7 +22,6 @@ export default function Tweet({tweetData, pageData, setPageData}){
             fetchPolicy: "network-only"
         });
         setTweet(data.getPostById)
-        console.log(data)
         return data.getPostById;
     }
 
@@ -31,7 +32,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
     async function handleUpdateLikes(e){
         const { data } = await client.mutate({
             mutation: createLikeMutation,
-            variables: { input: {post_id: post_id, user_id: tweet.user.user_id}}
+            variables: { input: {post_id, user_id: userData.user_id}}
           });
           setUpdated(!updated)
         return data;
@@ -40,7 +41,7 @@ export default function Tweet({tweetData, pageData, setPageData}){
     async function handleUpdateRetweet(e){
         const { data } = await client.mutate({
             mutation: createRetweetMutation,
-            variables: { input: {post_id: post_id, user_id: tweet.user.user_id}}
+            variables: { input: {post_id, user_id: userData.user_id}}
         });
         setUpdated(!updated)
         return data;
@@ -70,15 +71,32 @@ export default function Tweet({tweetData, pageData, setPageData}){
             <button 
                 className="mx-2 px-4 py-2 rounded-lg bg-blue-900"
                 onClick={handleDeleteTweet}
+                disabled = {!loggedIn}
                 >
                     Delete
             </button>
             </div>
             <p className="py-5">{tweet.content}</p>
             <div className="py-3">
-                <button className="pr-10" onClick={()=>setViewingComments(!viewingComments)}>Comments {tweet.comments}</button>
-                <button className="pr-10" onClick={handleUpdateLikes}> Likes {tweet.likes}</button>
-                <button className="pr-10" onClick={handleUpdateRetweet}>Retweet {tweet.retweets}</button>
+                <button 
+                    className="pr-10" 
+                    onClick={()=>setViewingComments(!viewingComments)}
+                    >
+                        Comments {tweet.comments}
+                </button>
+                <button 
+                    className="pr-10" 
+                    onClick={handleUpdateLikes}
+                    disabled = {!loggedIn}> 
+                        Likes {tweet.likes}
+                </button>
+                <button 
+                    className="pr-10" 
+                    onClick={handleUpdateRetweet}
+                    disabled = {!loggedIn}
+                    >
+                        Retweet {tweet.retweets}
+                </button>
             </div>
             <div className={ viewingComments ? "outline outline-1 outline-slate-200 rounded-sm text-base" : undefined}>
                 {viewingComments && <CommentsPage post_id={post_id} updated = {updated} setUpdated={setUpdated}/>}

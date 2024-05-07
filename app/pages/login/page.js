@@ -11,7 +11,7 @@ export default function loginPage(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [failedLogin, setFailedLogin] = useState(false)
-    const {loggedIn, setLoggedIn} = useContext(Context)
+    const {loggedIn, setLoggedIn, setUserData} = useContext(Context)
 
 
     async function handleLogin(e){
@@ -20,10 +20,11 @@ export default function loginPage(){
             variables: {input: {email}}
         })
         const user = data.getUserByEmail
+        console.log(user)
         if(user && user.password == password){
-            router.push('/pages/post')
+            router.push('/')
             setFailedLogin(false);
-            sessionStorage.setItem("user_id", user.user_id)
+            setUserData(user)
             setLoggedIn(true)
         } else {
             setFailedLogin(true);
@@ -45,7 +46,7 @@ export default function loginPage(){
             <input 
                 placeholder="Enter password" 
                 type="text" 
-                className="my-5 h-10 rounded-lg px-2 w-[80%]"
+                className="my-5 h-10 rounded-lg px-2 w-[80%] input-password"
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}/>
             <button onClick={handleLogin} className="bg-white px-3 rounded-md">Submit</button>

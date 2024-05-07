@@ -11,11 +11,19 @@ export const Context = createContext()
 
 export default function RootLayout({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState()
+
+  const states = {
+    loggedIn,
+    setLoggedIn,
+    userData,
+    setUserData
+  }
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Context.Provider value={{loggedIn, setLoggedIn}}>
+        <Context.Provider value={states}>
           <Header/>
             <div className="page-container">
                 {children}

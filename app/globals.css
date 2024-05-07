@@ -30,6 +30,12 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .input-password {
+    -webkit-text-security: disc; /* Safari and Chrome */
+    -moz-text-security: disc; /* Firefox */
+    font-size: large;
+  }
 }
 
 .page-container {
