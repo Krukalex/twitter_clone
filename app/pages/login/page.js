@@ -5,6 +5,7 @@ import { client } from "@/app/ApolloWrapper"
 import { useContext, useState } from "react"
 import { useRouter } from "next/navigation";
 import { Context } from "@/app/layout";
+import Link from "next/link";
 
 export default function loginPage(){
     const router = useRouter()
@@ -34,7 +35,7 @@ export default function loginPage(){
     }
     return(
         <>
-        <div className='flex flex-col bg-blue-700 p-10 pb-20 my-40 mx-[30vh] rounded-md items-center w-[60%]'>
+        <div className='flex flex-col bg-blue-700 p-10 pb-20 mt-40 mb-10 mx-[30vh] rounded-md items-center w-[60%]'>
             <p className="text-center mb-10 text-white text-xl">Fake Twitter</p>
             {failedLogin && <p className="bg-red-200 px-3 py-1 rounded-sm text-red-900 w-[80%] text-center">Login failed - username or password is incorrect</p>}
             <input 
@@ -50,6 +51,10 @@ export default function loginPage(){
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}/>
             <button onClick={handleLogin} className="bg-white px-3 rounded-md">Submit</button>
+        </div>
+        <div className="flex flex-col items-center">
+            <p>No Account?</p>
+            <button className="bg-slate-600 px-2 rounded-sm text-slate-100 mt-2"><Link href="/pages/createAccount">Create Account</Link></button>
         </div>
         </>
     )

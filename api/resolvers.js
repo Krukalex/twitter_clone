@@ -2,7 +2,7 @@ import { createComment, getPostComments, getUserComments } from "@/data/comments
 import { createPostLike } from "@/data/postLikes";
 import { createPost, deletePost, getPosts, getPostsById, getPostsIds } from "@/data/posts";
 import { createRetweet } from "@/data/retweets";
-import { getUserById, getUsers, getUserByEmail } from "@/data/users"
+import { getUserById, getUsers, getUserByEmail, createUser } from "@/data/users"
 
 export const resolvers = {
     Query:{
@@ -74,6 +74,10 @@ export const resolvers = {
         createComment: async(_root, {input: {post_id, user_id, content}})=>{
             const data = await createComment({post_id, user_id, content});
             return null;
+        },
+        createUser: async(_root, {input: {username, email, password}}) =>{
+            const data = await createUser({username, email, password});
+            return null
         }
     }
 }

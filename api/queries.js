@@ -113,3 +113,11 @@ export const createCommentMutation = gql`
         } 
     }
 `
+
+export const createUserMutation = gql`
+    mutation CreateUser($input: createUserInput){
+        createUser(input: $input) {
+            user_id
+        }
+    }
+`

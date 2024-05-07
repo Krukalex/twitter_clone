@@ -14,6 +14,7 @@ type Mutation {
     createLike(input: createLikeInput): Like
     createRetweet(input: createRetweetInput): Retweet
     createComment(input: createCommentInput): Comment
+    createUser(input: createUserInput): User
 }
 
 type User{
@@ -104,4 +105,10 @@ input getUserByEmailInput{
 
 input getUserByIdInput{
     user_id: ID!
+}
+
+input createUserInput{
+    username: String!
+    email: String
+    password: String!
 }

@@ -43,11 +43,10 @@ const deleteUser = async (user_id) => {
 
 const createUser = async (data)=>{
     const statement =db.prepare( `
-        INSERT INTO users VALUES(
-            null,
+        INSERT INTO users (username, email, password)
+        VALUES(
             @username,
             @email,
-            @created_at,
             @password
         )
     `);
